@@ -1,2 +1,2 @@
 
-print("Hello today")
+print("Hello from nodejs")
