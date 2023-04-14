@@ -1,27 +1,15 @@
 pipeline {
-    agent {
-        docker {
-            image 'docker-agent-alpine'
-            args '-p 3000:3000'
-        }
+  agent any
+  tools {nodejs "node"}
+  stages {
+    stage('Build') {
+      steps {
+        git branch: 'main', url: 'https://github.com/walsoulconsut/node_pipeline.git'
+        sh 'npm install'
+      }
+        
     }
-    stages {
-        stage('Build') {
-            steps {
-                sh 'npm install'
-            }
-        }
-        stage('Test') {
-            steps {
-                sh './jenkins/scripts/test.sh'
-            }
-        }
-        stage('Deliver') { 
-            steps {
-                sh './jenkins/scripts/deliver.sh' 
-                input message: 'Finished using the web site? (Click "Proceed" to continue)' 
-                sh './jenkins/scripts/kill.sh' 
-            }
-        }
-    }
+      
+  }
+    
 }
